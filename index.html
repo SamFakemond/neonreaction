@@ -17,9 +17,6 @@
             --selection-bg: rgba(56, 189, 248, 0.2);
             --border-color: rgba(255, 255, 255, 0.05);
             --input-bg: #1e293b;
-            
-            /* Fluid Sizing Variables */
-            --spacing-unit: clamp(0.5rem, 2vw, 1rem);
             --border-radius: 12px;
         }
 
@@ -51,7 +48,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100vh;
-            height: -webkit-fill-available; /* Fixed mobile viewport height */
+            height: -webkit-fill-available;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -62,34 +59,58 @@
             height: -webkit-fill-available;
         }
 
+        /* --- UI BREAKPOINTS --- */
+
+        /* Default / Desktop (1025px+) */
+        h1 { font-size: 3.5rem; }
+        .btn-main { font-size: 1.1rem; padding: 1rem 3rem; }
+        .option-btn { font-size: 0.95rem; }
+        .stat-value { font-size: 1.7rem; }
+        .stat-label { font-size: 0.7rem; }
+
+        /* Tablet (481px - 1024px) */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            .btn-main { font-size: 1.2rem; padding: 1.1rem 3.5rem; }
+        }
+
+        /* Mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; letter-spacing: -0.04em; }
+            .btn-main { font-size: 1.4rem; padding: 1.2rem 2.5rem; width: 90%; }
+            .option-btn { font-size: 1.1rem; padding: 1rem 0.5rem; }
+            .stat-value { font-size: 1.5rem; }
+            .setting-label { font-size: 0.85rem; }
+            .tagline { font-size: 0.75rem; }
+            .secondary-header h1 { font-size: 2.2rem; }
+        }
+
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: clamp(0.5rem, 3vw, 1rem) clamp(1rem, 5vw, 2rem);
+            padding: 0.8rem 1.5rem;
             background: var(--header-bg);
             backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--border-color);
             z-index: 10;
-            min-height: 60px;
+            min-height: 70px;
         }
 
         .stat-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 70px;
+            min-width: 80px;
         }
 
         .stat-label {
-            font-size: clamp(0.55rem, 1.5vw, 0.7rem);
             text-transform: uppercase;
             letter-spacing: 0.15em;
             color: var(--sub-text);
         }
 
         .stat-value {
-            font-size: clamp(1.2rem, 4vw, 1.7rem);
             font-weight: 800;
             line-height: 1;
         }
@@ -100,14 +121,13 @@
             background: rgba(244, 63, 94, 0.1);
             border: 1px solid var(--danger-color);
             color: var(--danger-color);
-            padding: 0.5rem 0.75rem;
-            font-size: 0.7rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.2s;
-            min-height: 36px;
+            min-height: 44px;
         }
 
         #game-area {
@@ -118,14 +138,13 @@
             overflow: hidden;
         }
 
+        /* Fixed Shape Sizes */
         .shape {
             position: absolute;
             cursor: pointer;
             transition: opacity 0.1s, transform 0.1s;
             animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            /* Ensure large enough touch area for small shapes */
-            min-width: 44px;
-            min-height: 44px;
+            z-index: 5;
         }
 
         .circle { border-radius: 50%; }
@@ -146,82 +165,76 @@
             align-items: center;
             z-index: 100;
             text-align: center;
-            padding: clamp(1.5rem, 5vw, 3rem);
+            padding: 2rem;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .hidden { display: none !important; }
 
-        /* Main Menu Branding & Title */
         .header-group {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: clamp(1.5rem, 6vh, 3rem);
+            gap: 1rem;
+            margin-bottom: 2.5rem;
             width: 100%;
         }
 
         .header-logo {
-            width: clamp(140px, 40vw, 240px);
+            width: clamp(140px, 40vw, 220px);
             height: auto;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
         }
 
         h1 {
-            font-size: clamp(1.75rem, 8vw, 3.5rem);
             font-weight: 900;
             background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
             margin: 0;
-            letter-spacing: -0.02em;
         }
 
         .secondary-header {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .settings-container {
             width: 100%;
             max-width: 450px;
             display: grid;
-            gap: clamp(1rem, 3vh, 1.5rem);
-            margin-bottom: clamp(1.5rem, 5vh, 2.5rem);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .setting-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .setting-label {
-            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--sub-text);
+            font-weight: 600;
         }
 
         .option-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .option-btn {
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             color: var(--sub-text);
-            padding: clamp(0.6rem, 2vh, 1rem) 0.5rem;
-            border-radius: 8px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-            min-height: 44px; /* Better touch target */
+            min-height: 50px;
         }
 
         .option-btn.active {
@@ -234,53 +247,49 @@
             background: var(--accent-color);
             color: #ffffff;
             border: none;
-            padding: clamp(0.8rem, 2.5vh, 1.2rem) clamp(2rem, 10vw, 4rem);
-            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 800;
-            border-radius: 14px;
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            width: fit-content;
-            min-height: 52px;
+            min-height: 60px;
+            box-shadow: 0 4px 0px rgba(2, 132, 199, 0.5);
         }
 
         .btn-main:active {
-            transform: scale(0.96);
+            transform: translateY(2px);
+            box-shadow: none;
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--sub-text);
             border: 1px solid var(--border-color);
-            padding: 0.7rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             transition: 0.2s;
-            min-height: 44px;
-            font-size: 0.9rem;
+            min-height: 48px;
         }
 
         .bottom-branding {
             margin-top: auto;
-            padding-top: 2rem;
+            padding-top: 3rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             opacity: 0.9;
         }
 
         .footer-logo {
-            width: clamp(90px, 20vw, 130px);
+            width: 120px;
             height: auto;
-            object-fit: contain;
         }
 
         .tagline {
-            font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 0.25em;
             color: var(--sub-text);
@@ -294,14 +303,14 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            width: 48px;
-            height: 48px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 110;
         }
 
@@ -309,10 +318,9 @@
             width: 100%;
             max-width: 500px;
             margin: 1rem 0;
-            overflow-x: auto;
             background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            overflow: hidden;
         }
 
         .scoreboard-table {
@@ -322,31 +330,31 @@
 
         .scoreboard-table th {
             background: var(--selection-bg);
-            padding: 0.75rem 0.5rem;
+            padding: 1rem;
             text-align: left;
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--accent-color);
         }
 
         .scoreboard-table td {
-            padding: 0.6rem 0.5rem;
+            padding: 1rem;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.8rem;
+            font-size: 0.95rem;
         }
 
         .name-input {
             background: var(--input-bg);
             border: 2px solid var(--border-color);
             color: var(--text-color);
-            padding: 0.8rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            padding: 1rem;
+            border-radius: 14px;
+            font-size: 1.3rem;
             width: 100%;
-            max-width: 300px;
-            margin-bottom: 1.5rem;
+            max-width: 320px;
+            margin-bottom: 2rem;
             text-align: center;
-            min-height: 54px;
+            min-height: 60px;
         }
 
         .floating-score {
@@ -354,17 +362,8 @@
             color: var(--success-color);
             font-weight: 900;
             pointer-events: none;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             animation: floatUp 0.6s ease-out forwards;
-        }
-
-        /* Mobile specific spacing adjustments */
-        @media (max-height: 600px) {
-            .header-group { margin-bottom: 1rem; }
-            .settings-container { gap: 0.5rem; margin-bottom: 1rem; }
-            .bottom-branding { padding-top: 1rem; }
-            .header-logo { width: 120px; }
-            h1 { font-size: 1.5rem; }
         }
 
         @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -376,7 +375,7 @@
 
     <header>
         <div id="nav-controls">
-            <button id="quit-btn" class="btn-quit hidden">Quit</button>
+            <button id="quit-btn" class="btn-quit hidden">Quit Game</button>
         </div>
         <div class="stat-box">
             <div class="stat-label">Score</div>
@@ -399,7 +398,7 @@
         
         <div class="settings-container">
             <div class="setting-group">
-                <span class="setting-label">Duration</span>
+                <span class="setting-label">Match Duration</span>
                 <div class="option-grid" id="duration-options">
                     <button class="option-btn" data-value="30">30s</button>
                     <button class="option-btn active" data-value="60">60s</button>
@@ -408,7 +407,7 @@
             </div>
 
             <div class="setting-group">
-                <span class="setting-label">Difficulty</span>
+                <span class="setting-label">Complexity</span>
                 <div class="option-grid" id="difficulty-options">
                     <button class="option-btn" data-value="easy">Easy</button>
                     <button class="option-btn active" data-value="medium">Medium</button>
@@ -417,8 +416,8 @@
             </div>
         </div>
 
-        <button id="start-btn" class="btn-main">Launch Game</button>
-        <button id="show-board-btn" class="btn-secondary">View Scoreboard</button>
+        <button id="start-btn" class="btn-main">Start Mission</button>
+        <button id="show-board-btn" class="btn-secondary">View Leaderboard</button>
 
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
@@ -426,10 +425,10 @@
         </div>
 
         <button id="theme-toggle" class="theme-toggle-bottom" title="Toggle Appearance">
-            <svg class="theme-icon moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="theme-icon moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
-            <svg class="theme-icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="theme-icon sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
                 <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -448,9 +447,9 @@
         <div class="secondary-header">
             <h1>SAVE SCORE</h1>
         </div>
-        <p style="color: var(--sub-text); margin-bottom: 1rem;">Final Score: <span id="entry-score" style="color: var(--accent-color); font-weight: bold;">0</span></p>
-        <input type="text" id="player-name" class="name-input" placeholder="Enter your name" maxlength="15">
-        <button id="submit-score-btn" class="btn-main">Submit Score</button>
+        <p style="color: var(--sub-text); margin-bottom: 1rem; font-size: 1.1rem">Final Score: <span id="entry-score" style="color: var(--accent-color); font-weight: 800;">0</span></p>
+        <input type="text" id="player-name" class="name-input" placeholder="Operator Name" maxlength="15">
+        <button id="submit-score-btn" class="btn-main">Submit Record</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
             <div class="tagline">BUILT TO DELIVER</div>
@@ -460,7 +459,7 @@
     <!-- Leaderboard Screen -->
     <div id="leaderboard-screen" class="overlay hidden">
         <div class="secondary-header">
-            <h1>TOP SCORES</h1>
+            <h1>TOP OPERATORS</h1>
         </div>
         <div class="scoreboard-table-container">
             <table class="scoreboard-table">
@@ -475,7 +474,7 @@
                 <tbody id="leaderboard-body"></tbody>
             </table>
         </div>
-        <button id="board-back-btn" class="btn-main">Return to Menu</button>
+        <button id="board-back-btn" class="btn-main">Exit to Menu</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
             <div class="tagline">BUILT TO DELIVER</div>
@@ -487,9 +486,9 @@
         <div class="secondary-header">
             <h1>TIME UP</h1>
         </div>
-        <p style="color: var(--sub-text)">Your performance</p>
-        <div id="final-score" class="stat-value" style="font-size: clamp(3rem, 15vw, 5rem); color: var(--accent-color); margin: 1rem 0;">0</div>
-        <button id="continue-to-name-btn" class="btn-main">Continue</button>
+        <p style="color: var(--sub-text); font-size: 1.2rem">Total Points Earned</p>
+        <div id="final-score" class="stat-value" style="font-size: 5rem; color: var(--accent-color); margin: 1rem 0;">0</div>
+        <button id="continue-to-name-btn" class="btn-main">Save Result</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
             <div class="tagline">BUILT TO DELIVER</div>
@@ -512,9 +511,9 @@
         let scoreboard = [];
 
         const difficulties = {
-            easy: { spawn: 1200, linger: 3500, sizeRange: [60, 90] },
-            medium: { spawn: 800, linger: 2200, sizeRange: [50, 80] },
-            hard: { spawn: 500, linger: 1200, sizeRange: [40, 65] }
+            easy: { spawn: 1200, linger: 3500, sizeRange: [60, 85] },
+            medium: { spawn: 850, linger: 2200, sizeRange: [50, 75] },
+            hard: { spawn: 550, linger: 1300, sizeRange: [45, 65] }
         };
 
         function setupToggle(containerId, configKey) {
@@ -536,6 +535,14 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.body.setAttribute('data-theme', newTheme);
             config.theme = newTheme;
+            
+            const sun = themeToggle.querySelector('.sun-icon');
+            const moon = themeToggle.querySelector('.moon-icon');
+            if(newTheme === 'light') {
+                sun.style.display = 'block'; moon.style.display = 'none';
+            } else {
+                sun.style.display = 'none'; moon.style.display = 'block';
+            }
         });
 
         function updateScore(pts) {
@@ -586,28 +593,25 @@
             const colors = ['#f43f5e', '#38bdf8', '#fbbf24', '#a855f7', '#10b981'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             
-            // Proportional scaling for shapes based on viewport
-            const baseScale = Math.min(gameArea.clientWidth, gameArea.clientHeight) / 400;
-            const minSize = diff.sizeRange[0] * baseScale;
-            const maxSize = diff.sizeRange[1] * baseScale;
-            const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
+            // Fixed Pixel Sizes - No clamping or dynamic scaling
+            const size = Math.floor(Math.random() * (diff.sizeRange[1] - diff.sizeRange[0])) + diff.sizeRange[0];
 
             shape.className = `shape ${type}`;
             const x = Math.random() * (gameArea.clientWidth - size - 20) + 10;
             const y = Math.random() * (gameArea.clientHeight - size - 20) + 10;
 
             if (type === 'triangle') {
-                shape.style.borderBottomColor = color;
-                shape.style.borderLeftWidth = shape.style.borderRightWidth = (size / 2) + 'px';
-                shape.style.borderBottomWidth = size + 'px';
+                shape.style.borderLeft = (size / 2) + 'px solid transparent';
+                shape.style.borderRight = (size / 2) + 'px solid transparent';
+                shape.style.borderBottom = size + 'px solid ' + color;
+                shape.style.width = '0';
+                shape.style.height = '0';
                 shape.style.color = color;
-                // Add a bigger hit box for triangle
-                shape.style.padding = (size / 4) + 'px';
-                shape.style.margin = -(size / 4) + 'px';
             } else {
-                shape.style.width = shape.style.height = size + 'px';
+                shape.style.width = size + 'px';
+                shape.style.height = size + 'px';
                 shape.style.backgroundColor = color;
-                shape.style.boxShadow = `0 0 25px ${color}66`;
+                shape.style.boxShadow = `0 0 20px ${color}88`;
             }
             shape.style.left = x + 'px'; shape.style.top = y + 'px';
 
@@ -619,9 +623,7 @@
                 shape.remove();
             };
             
-            // Use pointer events for better cross-device support
             shape.onpointerdown = hit;
-            
             gameArea.appendChild(shape);
             setTimeout(() => { if (shape.parentElement) shape.remove(); }, diff.linger);
         }
@@ -645,7 +647,7 @@
 
         function saveScore() {
             const input = document.getElementById('player-name');
-            const name = input.value.trim() || 'Guest';
+            const name = input.value.trim() || 'Operator';
             scoreboard.push({
                 name: name,
                 score: state.score,
@@ -661,7 +663,7 @@
             const body = document.getElementById('leaderboard-body');
             body.innerHTML = '';
             if (scoreboard.length === 0) {
-                body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--sub-text); padding: 2rem;">No scores yet.</td></tr>';
+                body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--sub-text); padding: 2rem;">No operational data recorded.</td></tr>';
             } else {
                 scoreboard.slice(0, 10).forEach((entry, index) => {
                     const row = document.createElement('tr');
@@ -669,7 +671,7 @@
                         <td>${index + 1}</td>
                         <td style="font-weight:bold;">${entry.name}</td>
                         <td style="color:var(--accent-color); font-weight:800;">${entry.score}</td>
-                        <td style="font-size:0.7rem; color:var(--sub-text);">${entry.duration}s (${entry.difficulty})</td>
+                        <td style="font-size:0.75rem; color:var(--sub-text);">${entry.duration}s [${entry.difficulty}]</td>
                     `;
                     body.appendChild(row);
                 });
@@ -707,7 +709,6 @@
             if (e.key === 'Enter') saveScore();
         });
 
-        // Prevent unwanted scrolling/bouncing on iOS
         document.addEventListener('touchmove', (e) => {
             if (state.isActive) e.preventDefault();
         }, { passive: false });
