@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Neon Reaction - Powered by Zoomineer</title>
     <style>
         :root {
@@ -17,6 +17,10 @@
             --selection-bg: rgba(56, 189, 248, 0.2);
             --border-color: rgba(255, 255, 255, 0.05);
             --input-bg: #1e293b;
+            
+            /* Fluid Sizing Variables */
+            --spacing-unit: clamp(0.5rem, 2vw, 1rem);
+            --border-radius: 12px;
         }
 
         [data-theme="light"] {
@@ -40,46 +44,54 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100vh;
+            height: -webkit-fill-available; /* Fixed mobile viewport height */
             overflow: hidden;
             display: flex;
             flex-direction: column;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        html {
+            height: -webkit-fill-available;
+        }
+
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.8rem 1.5rem;
+            padding: clamp(0.5rem, 3vw, 1rem) clamp(1rem, 5vw, 2rem);
             background: var(--header-bg);
             backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--border-color);
             z-index: 10;
+            min-height: 60px;
         }
 
         .stat-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 80px;
+            min-width: 70px;
         }
 
         .stat-label {
-            font-size: 0.6rem;
+            font-size: clamp(0.55rem, 1.5vw, 0.7rem);
             text-transform: uppercase;
             letter-spacing: 0.15em;
             color: var(--sub-text);
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.7rem);
             font-weight: 800;
+            line-height: 1;
         }
 
         #timer.warning { color: var(--danger-color); animation: pulse 0.5s infinite; }
@@ -88,13 +100,14 @@
             background: rgba(244, 63, 94, 0.1);
             border: 1px solid var(--danger-color);
             color: var(--danger-color);
-            padding: 0.5rem 1rem;
-            font-size: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.2s;
+            min-height: 36px;
         }
 
         #game-area {
@@ -110,6 +123,9 @@
             cursor: pointer;
             transition: opacity 0.1s, transform 0.1s;
             animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Ensure large enough touch area for small shapes */
+            min-width: 44px;
+            min-height: 44px;
         }
 
         .circle { border-radius: 50%; }
@@ -117,9 +133,6 @@
         .triangle {
             width: 0; height: 0;
             background: transparent !important;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-bottom: 50px solid white;
             filter: drop-shadow(0 0 12px currentColor);
         }
 
@@ -133,8 +146,9 @@
             align-items: center;
             z-index: 100;
             text-align: center;
-            padding: 2rem;
+            padding: clamp(1.5rem, 5vw, 3rem);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .hidden { display: none !important; }
@@ -144,18 +158,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+            margin-bottom: clamp(1.5rem, 6vh, 3rem);
+            width: 100%;
         }
 
         .header-logo {
-            width: clamp(140px, 25vw, 200px);
+            width: clamp(140px, 40vw, 240px);
             height: auto;
             filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
         }
 
         h1 {
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-size: clamp(1.75rem, 8vw, 3.5rem);
             font-weight: 900;
             background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
             -webkit-background-clip: text;
@@ -171,10 +186,10 @@
 
         .settings-container {
             width: 100%;
-            max-width: clamp(300px, 90vw, 450px);
+            max-width: 450px;
             display: grid;
-            gap: 1.25rem;
-            margin-bottom: 2rem;
+            gap: clamp(1rem, 3vh, 1.5rem);
+            margin-bottom: clamp(1.5rem, 5vh, 2.5rem);
         }
 
         .setting-group {
@@ -184,7 +199,7 @@
         }
 
         .setting-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--sub-text);
@@ -200,12 +215,13 @@
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             color: var(--sub-text);
-            padding: 0.75rem;
+            padding: clamp(0.6rem, 2vh, 1rem) 0.5rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+            min-height: 44px; /* Better touch target */
         }
 
         .option-btn.active {
@@ -218,55 +234,53 @@
             background: var(--accent-color);
             color: #ffffff;
             border: none;
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
+            padding: clamp(0.8rem, 2.5vh, 1.2rem) clamp(2rem, 10vw, 4rem);
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 800;
-            border-radius: 12px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
+            width: fit-content;
+            min-height: 52px;
         }
 
-        .btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.4);
+        .btn-main:active {
+            transform: scale(0.96);
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--sub-text);
             border: 1px solid var(--border-color);
-            padding: 0.6rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             margin-top: 1rem;
             transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--selection-bg);
-            color: var(--text-color);
+            min-height: 44px;
+            font-size: 0.9rem;
         }
 
         .bottom-branding {
-            margin-top: 3.5rem;
+            margin-top: auto;
+            padding-top: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             opacity: 0.9;
         }
 
         .footer-logo {
-            width: clamp(100px, 20vw, 130px);
+            width: clamp(90px, 20vw, 130px);
             height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         .tagline {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 0.25em;
             color: var(--sub-text);
@@ -280,64 +294,45 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             z-index: 110;
         }
 
-        .theme-toggle-bottom:hover {
-            transform: scale(1.1);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
+        .scoreboard-table-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
-
-        .theme-icon {
-            width: 20px;
-            height: 20px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .sun-icon { display: none; }
-        .moon-icon { display: block; }
-
-        [data-theme="light"] .sun-icon { display: block; }
-        [data-theme="light"] .moon-icon { display: none; }
 
         .scoreboard-table {
             width: 100%;
-            max-width: 500px;
             border-collapse: collapse;
-            margin: 1rem 0 2rem 0;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
 
         .scoreboard-table th {
             background: var(--selection-bg);
-            padding: 0.85rem;
+            padding: 0.75rem 0.5rem;
             text-align: left;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             color: var(--accent-color);
         }
 
         .scoreboard-table td {
-            padding: 0.7rem 0.85rem;
+            padding: 0.6rem 0.5rem;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .name-input {
@@ -345,18 +340,13 @@
             border: 2px solid var(--border-color);
             color: var(--text-color);
             padding: 0.8rem;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1.1rem;
             width: 100%;
             max-width: 300px;
             margin-bottom: 1.5rem;
             text-align: center;
-            transition: border-color 0.2s;
-        }
-
-        .name-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
+            min-height: 54px;
         }
 
         .floating-score {
@@ -364,7 +354,17 @@
             color: var(--success-color);
             font-weight: 900;
             pointer-events: none;
+            font-size: 1.2rem;
             animation: floatUp 0.6s ease-out forwards;
+        }
+
+        /* Mobile specific spacing adjustments */
+        @media (max-height: 600px) {
+            .header-group { margin-bottom: 1rem; }
+            .settings-container { gap: 0.5rem; margin-bottom: 1rem; }
+            .bottom-branding { padding-top: 1rem; }
+            .header-logo { width: 120px; }
+            h1 { font-size: 1.5rem; }
         }
 
         @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -450,7 +450,7 @@
         </div>
         <p style="color: var(--sub-text); margin-bottom: 1rem;">Final Score: <span id="entry-score" style="color: var(--accent-color); font-weight: bold;">0</span></p>
         <input type="text" id="player-name" class="name-input" placeholder="Enter your name" maxlength="15">
-        <button id="submit-score-btn" class="btn-main">Submit to Leaderboard</button>
+        <button id="submit-score-btn" class="btn-main">Submit Score</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
             <div class="tagline">BUILT TO DELIVER</div>
@@ -462,7 +462,7 @@
         <div class="secondary-header">
             <h1>TOP SCORES</h1>
         </div>
-        <div id="board-container" style="width: 100%; display: flex; justify-content: center;">
+        <div class="scoreboard-table-container">
             <table class="scoreboard-table">
                 <thead>
                     <tr>
@@ -488,7 +488,7 @@
             <h1>TIME UP</h1>
         </div>
         <p style="color: var(--sub-text)">Your performance</p>
-        <div id="final-score" class="stat-value" style="font-size: 5rem; color: var(--accent-color); margin: 0.5rem 0;">0</div>
+        <div id="final-score" class="stat-value" style="font-size: clamp(3rem, 15vw, 5rem); color: var(--accent-color); margin: 1rem 0;">0</div>
         <button id="continue-to-name-btn" class="btn-main">Continue</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
@@ -512,9 +512,9 @@
         let scoreboard = [];
 
         const difficulties = {
-            easy: { spawn: 1200, linger: 3500 },
-            medium: { spawn: 800, linger: 2200 },
-            hard: { spawn: 500, linger: 1200 }
+            easy: { spawn: 1200, linger: 3500, sizeRange: [60, 90] },
+            medium: { spawn: 800, linger: 2200, sizeRange: [50, 80] },
+            hard: { spawn: 500, linger: 1200, sizeRange: [40, 65] }
         };
 
         function setupToggle(containerId, configKey) {
@@ -574,17 +574,23 @@
             const diff = difficulties[config.difficulty];
             const spawnInt = setInterval(() => {
                 if (!state.isActive) return;
-                spawnShape(diff.linger);
+                spawnShape();
             }, diff.spawn);
             state.intervals.push(spawnInt);
         }
 
-        function spawnShape(lingerTime) {
+        function spawnShape() {
+            const diff = difficulties[config.difficulty];
             const shape = document.createElement('div');
             const type = ['circle', 'square', 'triangle'][Math.floor(Math.random() * 3)];
             const colors = ['#f43f5e', '#38bdf8', '#fbbf24', '#a855f7', '#10b981'];
             const color = colors[Math.floor(Math.random() * colors.length)];
-            const size = Math.floor(Math.random() * 30) + 50;
+            
+            // Proportional scaling for shapes based on viewport
+            const baseScale = Math.min(gameArea.clientWidth, gameArea.clientHeight) / 400;
+            const minSize = diff.sizeRange[0] * baseScale;
+            const maxSize = diff.sizeRange[1] * baseScale;
+            const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
 
             shape.className = `shape ${type}`;
             const x = Math.random() * (gameArea.clientWidth - size - 20) + 10;
@@ -595,6 +601,9 @@
                 shape.style.borderLeftWidth = shape.style.borderRightWidth = (size / 2) + 'px';
                 shape.style.borderBottomWidth = size + 'px';
                 shape.style.color = color;
+                // Add a bigger hit box for triangle
+                shape.style.padding = (size / 4) + 'px';
+                shape.style.margin = -(size / 4) + 'px';
             } else {
                 shape.style.width = shape.style.height = size + 'px';
                 shape.style.backgroundColor = color;
@@ -609,9 +618,12 @@
                 showFloat(x, y);
                 shape.remove();
             };
-            shape.onmousedown = hit; shape.ontouchstart = hit;
+            
+            // Use pointer events for better cross-device support
+            shape.onpointerdown = hit;
+            
             gameArea.appendChild(shape);
-            setTimeout(() => { if (shape.parentElement) shape.remove(); }, lingerTime);
+            setTimeout(() => { if (shape.parentElement) shape.remove(); }, diff.linger);
         }
 
         function showFloat(x, y) {
@@ -649,7 +661,7 @@
             const body = document.getElementById('leaderboard-body');
             body.innerHTML = '';
             if (scoreboard.length === 0) {
-                body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--sub-text); padding: 2rem;">No scores tracked yet.</td></tr>';
+                body.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--sub-text); padding: 2rem;">No scores yet.</td></tr>';
             } else {
                 scoreboard.slice(0, 10).forEach((entry, index) => {
                     const row = document.createElement('tr');
@@ -674,6 +686,7 @@
             state.intervals.forEach(clearInterval);
             quitBtn.classList.add('hidden');
             menuScreen.classList.remove('hidden');
+            gameArea.innerHTML = '';
         };
 
         document.getElementById('continue-to-name-btn').onclick = () => {
@@ -693,6 +706,11 @@
         document.getElementById('player-name').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') saveScore();
         });
+
+        // Prevent unwanted scrolling/bouncing on iOS
+        document.addEventListener('touchmove', (e) => {
+            if (state.isActive) e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
