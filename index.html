@@ -448,7 +448,7 @@
             <h1>SAVE SCORE</h1>
         </div>
         <p style="color: var(--sub-text); margin-bottom: 1rem; font-size: 1.1rem">Final Score: <span id="entry-score" style="color: var(--accent-color); font-weight: 800;">0</span></p>
-        <input type="text" id="player-name" class="name-input" placeholder="Operator Name" maxlength="15">
+        <input type="text" id="player-name" class="name-input" placeholder="Player Name" maxlength="15">
         <button id="submit-score-btn" class="btn-main">Submit Record</button>
         <div class="bottom-branding">
             <img src="https://i.ibb.co/pjGmCDw4/zoomineer-logo-removebg-preview.png" class="footer-logo" alt="Zoomineer">
@@ -459,7 +459,7 @@
     <!-- Leaderboard Screen -->
     <div id="leaderboard-screen" class="overlay hidden">
         <div class="secondary-header">
-            <h1>TOP OPERATORS</h1>
+            <h1>TOP PLAYERS</h1>
         </div>
         <div class="scoreboard-table-container">
             <table class="scoreboard-table">
@@ -647,7 +647,7 @@
 
         function saveScore() {
             const input = document.getElementById('player-name');
-            const name = input.value.trim() || 'Operator';
+            const name = input.value.trim() || 'Guest';
             scoreboard.push({
                 name: name,
                 score: state.score,
